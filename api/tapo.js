@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     
     const loginData = await loginResp.json();
     const token = encodeURIComponent(loginData.result.token);
-    const state = action === "on" ? 1 : 0;
+    const device_on = action === "on";
     
     const resp = await fetch("https://eu-wap.tplinkcloud.com?token=" + token, {
       method: "POST",
@@ -28,7 +28,8 @@ export default async function handler(req, res) {
         params: {
           deviceId: "802266F9E6B7FDEDFB7CD9CD83518E0625285158",
           requestData: JSON.stringify({
-            system: {set_relay_state: {state: state}}
+            method: "set_device_info",
+            params: {device_on: device_on}
           })
         }
       })
